@@ -123,7 +123,7 @@ if clicked_data and clicked_data.get("last_clicked"):
 
 
 st.markdown("#### Marital Status")
-married = st.radio("mar", ["Yes", "No"], label_visibility="hidden", index= None)
+married = st.radio("mar", ["Married", "Single", "Engaged"], label_visibility="hidden", index= None)
 if married:
     st.session_state.resp += 1
 
@@ -151,6 +151,12 @@ if income and income >= 0 and income <= 100000000000000:
 st.markdown("### Age (Years)")
 age = st.number_input("age", label_visibility="hidden", step=1, format="%d")
 if age and age > 0 and age <= 120:
+    st.session_state.resp += 1
+
+
+st.markdown("#### How often you visit this park ?")
+visit = st.radio("visit", ["Never", "Rarely", "Daily", "Weekly"], label_visibility="hidden", index= None)
+if visit:
     st.session_state.resp += 1
 
 
@@ -187,6 +193,7 @@ if st.button("✅ Submit Responses") and wtp:
             "income": income,
             "hoursWorkedPerWeek": hours_worked,
             "wtp": wtp,
+            "visitFrequency": visit,
         }
 
         try:

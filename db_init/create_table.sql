@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS people_info (
     h3index TEXT PRIMARY KEY,
     hexdistancetopark NUMERIC,
-    married BOOLEAN,
+    married TEXT,
     municipality TEXT,
     postalcode TEXT,
     education TEXT,
@@ -11,5 +11,6 @@ CREATE TABLE IF NOT EXISTS people_info (
     income INTEGER,
     age INTEGER,
     hoursWorked INTEGER,
+    visitFrequency TEXT,
     wtp INTEGER
 );
