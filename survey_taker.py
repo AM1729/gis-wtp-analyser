@@ -186,7 +186,7 @@ if st.button("✅ Submit Responses") and wtp:
             "numKids": numKids,
             "income": income,
             "hoursWorkedPerWeek": hours_worked,
-            wtp: wtp,
+            "wtp": wtp,
         }
 
         try:
