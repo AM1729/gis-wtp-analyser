@@ -159,7 +159,12 @@ hours_worked = st.number_input("hours", label_visibility="hidden", step=1, forma
 if hours_worked and hours_worked >= 0 and hours_worked <= 168:
     st.session_state.resp += 1
 
-if st.button("✅ Submit Responses"):
+st.markdown("#### Willing to Pay (0 to 100 Euros) for maintaining and improving the park facilities.")
+wtp = st.number_input("wtp", label_visibility="hidden", step=1, format="%d", min_value=0, max_value=100)
+if wtp and wtp >= 0 and wtp <= 100:
+    st.session_state.resp += 1
+
+if st.button("✅ Submit Responses") and wtp:
     if st.session_state.resp < 1:
         st.warning("Please answer atleast 1 question in the survey.")
     else:
@@ -180,7 +185,8 @@ if st.button("✅ Submit Responses"):
             "employment": employee,
             "numKids": numKids,
             "income": income,
-            "hoursWorkedPerWeek": hours_worked
+            "hoursWorkedPerWeek": hours_worked,
+            wtp: wtp,
         }
 
         try:

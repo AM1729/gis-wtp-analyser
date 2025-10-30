@@ -10,5 +10,6 @@ CREATE TABLE IF NOT EXISTS people_info (
     numkids INTEGER,
     income INTEGER
     age INTEGER,
-    hoursWorked INTEGER
+    hoursWorked INTEGER,
+    wtp INTEGER
 );
