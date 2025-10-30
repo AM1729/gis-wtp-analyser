@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS people_info (
     education TEXT,
     employment TEXT,
     numkids INTEGER,
-    income INTEGER
+    income INTEGER,
     age INTEGER,
     hoursWorked INTEGER,
     wtp INTEGER
