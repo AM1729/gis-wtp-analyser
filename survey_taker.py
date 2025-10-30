@@ -128,7 +128,7 @@ if married:
     st.session_state.resp += 1
 
 st.markdown("#### Level of Education")
-eduStatus = st.radio("edu", ["No formal education", "High School", "Bachelor's Degree", "Master's Degree", "PhD"], label_visibility="hidden", index= None)
+eduStatus = st.radio("edu", ["No formal education", "Less than High School", "High School", "Bachelor's Degree", "Master's Degree", "PhD"], label_visibility="hidden", index= None)
 if eduStatus:
     st.session_state.resp += 1
 
@@ -155,7 +155,7 @@ if age and age > 0 and age <= 120:
 
 
 st.markdown("#### How often you visit this park ?")
-visit = st.radio("visit", ["Never", "Rarely", "Daily", "Weekly"], label_visibility="hidden", index= None)
+visit = st.radio("visit", ["Never", "Rarely", "Monthly", "Weekly", "Daily"], label_visibility="hidden", index= None)
 if visit:
     st.session_state.resp += 1
 
