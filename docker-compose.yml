@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+
+  survey_taker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: survey_taker
+    restart: unless-stopped
+    ports:
+      - "8501:8501"
+    environment:
+      DATABASE_URL: postgresql://admin:secret@postgis:5432/geodb
+      PARK_H3_INDEX: "8928308280fffff"
+      PUBLIC_PARK_LAT:
+      PUBLIC_PARK_LON:
+    depends_on:
+      postgis:
+        condition: service_healthy
+
+  postgis:
+    image: postgis/postgis:16-3.4  # PostgreSQL 16 + PostGIS 3.4
+    container_name: postgis
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: geodb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgis_data:/var/lib/postgresql/data
+      - ./db_init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d geodb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgis_data:
