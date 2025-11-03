@@ -1,6 +1,9 @@
 -- db_init/create_table.sql
-CREATE TABLE IF NOT EXISTS people_info (
-    h3index TEXT PRIMARY KEY,
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+CREATE TABLE IF NOT EXISTS survey_info (
+    response_id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    h3index TEXT,
     hexdistancetopark NUMERIC,
     married TEXT,
     municipality TEXT,

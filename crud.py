@@ -25,7 +25,7 @@ class CRUD:
     """
 
     insert_query = sql.SQL("""
-        INSERT INTO people_info (h3index, hexdistancetopark, married, education, employment, numkids, income)
+        INSERT INTO survey_info (h3index, hexdistancetopark, married, education, employment, numkids, income)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
         ON CONFLICT (h3index) DO UPDATE
         SET hexdistancetopark = EXCLUDED.hexdistancetopark,

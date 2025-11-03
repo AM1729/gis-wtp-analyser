@@ -4,6 +4,7 @@ from streamlit_folium import st_folium
 import folium
 import h3
 import os
+import uuid
 from crud import CRUD, get_connection_pool
 from data_downloader import DataDownloader
 from folium.plugins import MousePosition
@@ -175,24 +176,30 @@ if st.button("✅ Submit Responses") and wtp:
         st.warning("Please answer atleast 1 question in the survey.")
     else:
         ## If no points selected, take the center of the map based on region, and pincode
-        if not clicked_data.get("last_clicked") and not st.session_state.point and region and postal:
-            st.warning("Taking the Center of the Region as Home location")
+        if region and not st.session_state.point:
+            st.warning("Taking the Center of the Selected Municipality as Home location")
             st.session_state.point = {"lat": round(st.session_state.map_center[0], 6), 
                                     "lng": round(st.session_state.map_center[1], 6)}
-            h3Index = h3.latlng_to_cell(st.session_state.point['lat'], st.session_state.point['lng'], 9)
-
+            
+        elif not region and not st.session_state.point:
+            st.error("Please select a Municipality to proceed with the survey, and submit again")
+            
+        h3Index = h3.latlng_to_cell(st.session_state.point['lat'], st.session_state.point['lng'], 9)
         payload = {
             "h3Index": h3Index,
+            "response_id": str(uuid.uuid4()),
             "municipality": region,
             "postalCode": postal,
-            "hexDistanceToPark": h3.grid_distance(h3Index, parkH3Indexx),
+            ##"hexDistanceToPark": h3.grid_distance(h3Index, parkH3Indexx),
+            "hexDistanceToPark": 7,
             "married": married,
             "education": eduStatus,
             "employment": employee,
-            "numKids": numKids,
+            "numkids": numKids,
             "income": income,
             "hoursWorkedPerWeek": hours_worked,
             "wtp": wtp,
+            "age": age,
             "visitFrequency": visit,
         }
 
