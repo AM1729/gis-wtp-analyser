@@ -26,7 +26,7 @@ class CRUD:
 
     insert_query = sql.SQL("""
         INSERT INTO survey_info (response_id, h3index, hexdistancetopark, married, municipality, education, employment, numkids, income, age, hoursWorked, visitFrequency, wtp)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     """)
 
     @classmethod
@@ -53,6 +53,7 @@ class CRUD:
                 ))
             conn.commit()
         except Exception as e:
+            print (e)
             conn.rollback()
             raise e
         finally:

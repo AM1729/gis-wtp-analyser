@@ -27,24 +27,32 @@ st.markdown("#### Select the Municipality and Optionally add a Postal Code to zo
 print("Starting SQL Connection Pool...")
 get_connection_pool()  # Initialize the connection pool at app start
 
-if st.button("Download Survey Responses (Admin Only)"):
-    # Step 2: Ask for credentials
-    username = st.text_input("Username")
-    password = st.text_input("Password", type="password")
-    
-    # Step 3: Check credentials
-    if st.button("Login"):
-        if username == RESEARCH_ADMIN_USERNAME and password == RESEARCH_ADMIN_PASSWORD:
-            st.success("Login successful! You can download the CSV now.")
-            csv_data = DataDownloader.get_data_as_csv()
-            st.download_button(
-                label="Download CSV",
-                data=csv_data,
-                file_name="survey_responses.csv",
-                mime="text/csv"
-            )
-        else:
-            st.error("Invalid credentials. Please get in touch with the Research Team for access")
+st.subheader("Admin Section")
+
+# Add a toggle or a checkbox instead of a button (st.button resets each run)
+if "admin_authenticated" not in st.session_state:
+    st.session_state.admin_authenticated = False
+
+if not st.session_state.admin_authenticated:
+    with st.expander("🔐 Download Survey Responses (Admin Only)"):
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+
+        if st.button("Login"):
+            if username == RESEARCH_ADMIN_USERNAME and password == RESEARCH_ADMIN_PASSWORD:
+                st.session_state.admin_authenticated = True
+                st.success("✅ Auth successful, Starting to download the Survey Results!")
+            else:
+                st.error("Invalid credentials.")
+else:
+    st.success("✅ Downnloading Survey Responses as CSV")
+    csv_data = DataDownloader.get_data_as_csv()
+    st.download_button(
+        label="Download CSV",
+        data=csv_data,
+        file_name="survey_responses.csv",
+        mime="text/csv"
+    )
 
 
 if "point" not in st.session_state:
@@ -206,6 +214,6 @@ if st.button("✅ Submit Responses") and wtp:
         try:
             CRUD.add_to_db(payload)
         except Exception as e:
-            st.error(f"An error occurred while submitting your responses, Please try submitting again") 
+            st.error(f"An error occurred while submitting your responses with {e}, Please try submitting again") 
         else:
             st.success(f"Response submitted successfully, Thank you for participating in the survey!.")
