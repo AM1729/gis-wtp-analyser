@@ -25,15 +25,8 @@ class CRUD:
     """
 
     insert_query = sql.SQL("""
-        INSERT INTO survey_info (h3index, hexdistancetopark, married, education, employment, numkids, income)
+        INSERT INTO survey_info (response_id, h3index, hexdistancetopark, married, municipality, education, employment, numkids, income, age, hoursWorked, visitFrequency, wtp)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
-        ON CONFLICT (h3index) DO UPDATE
-        SET hexdistancetopark = EXCLUDED.hexdistancetopark,
-            married = EXCLUDED.married,
-            education = EXCLUDED.education,
-            employment = EXCLUDED.employment,
-            numkids = EXCLUDED.numkids,
-            income = EXCLUDED.income;
     """)
 
     @classmethod
@@ -44,13 +37,19 @@ class CRUD:
         try:
             with conn.cursor() as cur:
                 cur.execute(cls.insert_query, (
+                    payload["response_id"],
                     payload["h3Index"],
                     payload["hexDistanceToPark"],
                     payload["married"],
+                    payload["municipality"],
                     payload["education"],
                     payload["employment"],
-                    payload["numKids"],
-                    payload["income"]
+                    payload["numkids"],
+                    payload["income"],
+                    payload["age"],
+                    payload["hoursWorkedPerWeek"],
+                    payload["visitFrequency"],
+                    payload["wtp"],
                 ))
             conn.commit()
         except Exception as e:
