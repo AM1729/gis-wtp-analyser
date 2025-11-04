@@ -18,7 +18,7 @@ class DataDownloader:
                 cur.execute(
                     "SELECT response_id, " \
                     "h3index, hexdistancetopark, married, municipality, postalcode, education, employment, numkids, age," \
-                    "hoursWorked, visitFrequency, wtp, income FROM survey_info"
+                    "hoursWorked, visitFrequency, income, wtp FROM survey_info"
                 )
                 rows = cur.fetchall()
                 colnames = [desc[0] for desc in cur.description]

@@ -38,21 +38,30 @@ if not st.session_state.admin_authenticated:
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
 
-        if st.button("Login"):
+        if st.button("Download ⬇️"):
             if username == RESEARCH_ADMIN_USERNAME and password == RESEARCH_ADMIN_PASSWORD:
                 st.session_state.admin_authenticated = True
                 st.success("✅ Auth successful, Starting to download the Survey Results!")
+                csv_data = DataDownloader.get_data_as_csv()
+                st.download_button(
+                    label="Download CSV",
+                    data=csv_data,
+                    file_name="survey_responses.csv",
+                    mime="text/csv"
+                )
+
             else:
                 st.error("Invalid credentials.")
 else:
-    st.success("✅ Downnloading Survey Responses as CSV")
-    csv_data = DataDownloader.get_data_as_csv()
-    st.download_button(
-        label="Download CSV",
-        data=csv_data,
-        file_name="survey_responses.csv",
-        mime="text/csv"
-    )
+    if st.button("Download ⬇️"):
+        st.success("✅ Downnloading Survey Responses as CSV")
+        csv_data = DataDownloader.get_data_as_csv()
+        st.download_button(
+            label="Download CSV",
+            data=csv_data,
+            file_name="survey_responses.csv",
+            mime="text/csv"
+        )
 
 
 if "point" not in st.session_state:
