@@ -6,6 +6,7 @@ import h3
 import os
 import uuid
 from crud import CRUD, get_connection_pool
+import time
 from data_downloader import DataDownloader
 from folium.plugins import MousePosition
 
@@ -226,3 +227,15 @@ if st.button("✅ Submit Responses") and wtp:
             st.error(f"An error occurred while submitting your responses with {e}, Please try submitting again") 
         else:
             st.success(f"Response submitted successfully, Thank you for participating in the survey!.")
+            
+
+            with st.spinner("Refreshing the form in 5 seconds..."):
+                time.sleep(5)
+            
+            keys_to_keep = {"admin_authenticated"}
+            for key in list(st.session_state.keys()):
+                if key not in keys_to_keep:
+                    del st.session_state[key]
+
+            st.session_state["reset_after_submit"] = True
+            st.rerun()
